@@ -1,4 +1,5 @@
 import * as React from "react";
+require("./styles.css");
 
 export interface IModalCardProps {
     visible: boolean;
@@ -18,7 +19,7 @@ export interface IButtonData {
 export const ModalCard = (props: IModalCardProps) => (
     <div className={"modal" + (props.visible ? " is-active" : "")}>
         <div className="modal-background" />
-        <div className="modal-card">
+        <div className="modal-card no-margin">
             <header className="modal-card-head">
                 <p className="modal-card-title">Modal title</p>
                 <button className="delete" aria-label="close" onClick={props.onClose}/>

@@ -45,14 +45,14 @@ module.exports = {
       },
       // css
       {
-        test: /\.css$/,
+        test: /\.s?[ac]ss$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
             {
               loader: 'css-loader',
               query: {
-                modules: true,
+                modules: false,
                 sourceMap: !isProduction,
                 importLoaders: 1,
                 localIdentName: '[local]__[hash:base64:5]'
@@ -61,43 +61,35 @@ module.exports = {
             {
               loader: 'postcss-loader',
               options: {
-                ident: 'postcss',
                 plugins: [
                   require('postcss-import')({ addDependencyTo: webpack }),
                   require('postcss-url')(),
                   require('postcss-cssnext')(),
                   require('postcss-reporter')(),
-                  require('postcss-browser-reporter')({
-                    disabled: isProduction
-                  })
+                  // require('postcss-browser-reporter')({
+                  //   disabled: isProduction
+                  // })
+                  require('cssnano')(),
                 ]
               }
-            }
+            },
+            'sass-loader',
           ]
         })
       },
       // static assets
-      { test: /\.html$/, use: 'html-loader' },
+      {
+        test: /\.html$/,
+        use: [ {
+          loader: 'html-loader',
+          options: {
+            minimize: true
+          }
+        }]
+      },
       { test: /\.(png|svg)$/, use: 'url-loader?limit=10000' },
       { test: /\.(jpg|gif)$/, use: 'file-loader' }
     ]
-  },
-  optimization: {
-    splitChunks: {
-      name: true,
-      cacheGroups: {
-        commons: {
-          chunks: 'initial',
-          minChunks: 2
-        },
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          chunks: 'all',
-          priority: -10
-        }
-      }
-    },
-    runtimeChunk: true
   },
   plugins: [
     new webpack.EnvironmentPlugin({
@@ -107,7 +99,8 @@ module.exports = {
     new WebpackCleanupPlugin(),
     new ExtractTextPlugin({
       filename: 'styles.css',
-      disable: !isProduction
+      ignoreOrder: false,
+      // disable: !isProduction
     }),
     new HtmlWebpackPlugin({
       template: 'assets/index.html'

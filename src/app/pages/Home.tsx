@@ -17,7 +17,7 @@ export class Home extends React.Component<IHomeProps, {visible: boolean;}> {
     public render() {
         return (
             <>
-            <h2 onClick={() => this.setState((prevState => ({visible: !prevState.visible})))}>Home{ console.log('Home') }</h2>
+            <h2 className="title is-1" onClick={() => this.setState((prevState => ({visible: !prevState.visible})))}>Home{ console.log('Home') }</h2>
             <ModalCard
                 visible={ this.state.visible }
                 onClose={() => this.setState((prevState => ({visible: !prevState.visible})))}
