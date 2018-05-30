@@ -51,8 +51,8 @@ export class NavBar extends React.Component<INavBarProps, INavBarState> {
                         </div>
                         <div className={menuClasses}>
                             <div className="navbar-start">
-                                <Link className="navbar-item" to="/">Home</Link><br />
-                                <Link className="navbar-item"  to="/about">About</Link><br />
+                                <Link className="navbar-item" to="/" onClick={this.toggleMenu}>Home</Link><br />
+                                <Link className="navbar-item"  to="/about" onClick={this.toggleMenu}>About</Link><br />
                             </div>
 
                             <div className="navbar-end">
@@ -66,9 +66,6 @@ export class NavBar extends React.Component<INavBarProps, INavBarState> {
     }
 
     protected toggleMenu(event: any) {
-        event.preventDefault();
-        event.stopPropagation();
-
         this.setState((prevState) => ({ menuIsActive: !prevState.menuIsActive }));
     }
 }
